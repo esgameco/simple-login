@@ -6,8 +6,13 @@ Registration and login system demonstration with session-based token cookies.
 
 - Frontend
     - React
-    - Typescript
 - Backend
     - Express
-    - Mongoose
-    - Typescript
+    - Postgres
+
+# Todo
+
+- V1
+    - Create express skeleton
+    - Add Postgres
+    - Create signup and login api
