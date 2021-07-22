@@ -11,6 +11,8 @@
   "author": "Chance Vodnoy",
   "license": "ISC",
   "dependencies": {
+    "@types/cookie-parser": "^1.4.2",
+    "cookie-parser": "^1.4.5",
     "express": "^4.17.1",
     "ts-node": "^10.1.0"
   },
