@@ -8,13 +8,13 @@ Registration and login system demonstration with session-based token cookies.
     - SSR React
 - Backend
     - Next.js
-    - Express
-    - Sequelize (Postgres)
+    - Postgres
+    - Prisma (maybe)
 
 # Todo
 
 - V1
     - [x] Create next.js skeleton
     - [ ] Create postgres database
-    - [ ] Add sequelize models
+    - [ ] Add prisma models
     - [ ] Create signup and login api
