@@ -13,7 +13,7 @@ const LoginHandler = (req: NextApiRequest, res: NextApiResponse) => {
     if (!username || !password)
         return res.json({'error': 'Cannot find Username or Password.'});
 
-    const token = sign(`${username}${password}`, 'test');
+    const token = sign(`${username}${password}`, config.get('secretKey'));
 
     res.json({token});
 };
