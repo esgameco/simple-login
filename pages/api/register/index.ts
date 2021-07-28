@@ -21,9 +21,10 @@ const RegisterHandler = async (req: NextApiRequest, res: NextApiResponse) => {
         return res.status(404).json({'error': 'Cannot find Email, Username or Password.'} as RegisterResponse);
 
     try {
-        // Check whether user exists
+        // Query database for user
         const user = await query(`SELECT username FROM users WHERE username = $1`, [username]);
 
+        // Check whether user exists
         if (user.rows.length > 0)
             return res.status(404).json({'error': 'User already exists.'} as RegisterResponse);
 
