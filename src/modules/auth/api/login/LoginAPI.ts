@@ -1,8 +1,8 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import { sign } from 'jsonwebtoken';
-import { query } from '../../../db';
 import { compare } from 'bcrypt';
-import config from 'config';
+
+import { getUser } from '../../db/user';
+import { createToken } from '../../utils/token';
 
 interface LoginQuery {
     username?: string;
@@ -22,19 +22,21 @@ const LoginHandler = async (req: NextApiRequest, res: NextApiResponse) => {
 
     try {
         // Query database for user
-        const user = await query('SELECT username, passhash FROM users WHERE username = $1', [username]);
+        const { exists, user } = await getUser(username);
+
+        console.log(user)
 
         // Check whether user exists
-        if (user.rows.length == 0)
+        if (!exists)
             return res.status(404).json({'error': 'User doesn\'t exist.'} as LoginResponse);
 
         // Check whether password is correct
-        const passwordCorrect = await compare(password, user.rows[0].passhash);
+        const passwordCorrect = await compare(password, user.passhash);
         if (!passwordCorrect)
             return res.status(404).json({'error': 'Password is incorrect.'} as LoginResponse);
 
         // Signs jwt token to give to user
-        const token = sign({username}, config.get('secretKey'));
+        const token = createToken({username});
 
         // Sets auth header to the jwt token
         res.setHeader('Set-Cookie', `auth:${token}`);

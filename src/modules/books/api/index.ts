@@ -1,7 +1,8 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import { verify } from 'jsonwebtoken';
 import axios, { AxiosResponse } from 'axios';
 import config from 'config';
+
+import { checkToken } from '../../auth/utils/token';
 
 interface Book {
     title?: string;
@@ -24,9 +25,9 @@ const BooksHandler = async (req: NextApiRequest, res: NextApiResponse) => {
         return res.status(404).json({'error': 'Auth token is not provided.'} as BookResponse);
 
     try {
-        const isLoggedIn = verify(auth, config.get('secretKey'));
+        const { verified } = checkToken(auth);
 
-        if (isLoggedIn) {
+        if (verified) {
             const bookApiRes: AxiosResponse = await axios.get(`https://openlibrary.org/isbn/${bookISBN}`);
 
             const {title, description} = bookApiRes.data as Book;
