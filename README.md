@@ -9,12 +9,12 @@ Registration and login system demonstration with session-based token cookies.
 - Backend
     - Next.js
     - Postgres
-    - Prisma (maybe)
 
 # Todo
 
 - V1
     - [x] Create next.js skeleton
-    - [ ] Create postgres database
-    - [ ] Add prisma models
-    - [ ] Create signup and login api
+    - [x] Create postgres database
+    - [x] Create postgres models
+    - [x] Create signup and login api
+    - [ ] Add email verification support
