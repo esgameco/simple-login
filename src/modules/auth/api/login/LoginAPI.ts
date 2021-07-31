@@ -22,12 +22,10 @@ const LoginHandler = async (req: NextApiRequest, res: NextApiResponse) => {
 
     try {
         // Query database for user
-        const { exists, user } = await getUser(username);
-
-        console.log(user)
+        const { exists, data: user } = await getUser(username);
 
         // Check whether user exists
-        if (!exists)
+        if (!exists || !user)
             return res.status(404).json({'error': 'User doesn\'t exist.'} as LoginResponse);
 
         // Check whether password is correct

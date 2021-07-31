@@ -1,7 +1,7 @@
 import { query } from "../../../db";
 
 export const createUserTable = async () => {
-    await query(`CREATE TABLE users (
+    await query(`CREATE TABLE [IF NOT EXISTS] users (
         email varchar(80),
         username varchar(80),
         passhash varchar(512),

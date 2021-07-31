@@ -2,9 +2,9 @@ import type { QueryResult } from 'pg';
 import config from 'config';
 
 import { query } from "../../../db";
-import { getUser } from './user';
+import { getUser } from '../../auth/db/user';
 
-import type { User } from '../types/user';
+import type { User } from '../../auth/types/user';
 
 interface QueryResponse {
     worked: boolean;
@@ -12,14 +12,14 @@ interface QueryResponse {
 }
 
 export const changeQueriesLeft = async (username: string, numQueries: number): Promise<QueryResponse> => {
-    const { exists, user } = await getUser(username);
+    const { exists, data: user } = await getUser(username);
 
-    if (!exists)
+    if (!exists || !user)
         return {worked: false, error: ''};
 
-    let newQueries = user.queriesleft;
+    let newQueries = user.queriesleft - numQueries;
 
-    if (newQueries - numQueries < 0)
+    if (newQueries < 0)
         newQueries = 0;
     
     const updateResult = await query('UPDATE users SET queriesleft = $1 WHERE username = $2', [newQueries, username]) as QueryResult;

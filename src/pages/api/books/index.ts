@@ -1,3 +1,3 @@
-import BooksHandler from "../../../modules/books/api";
+import BooksHandler from "../../../modules/books/api/BookAPI";
 
 export default BooksHandler;

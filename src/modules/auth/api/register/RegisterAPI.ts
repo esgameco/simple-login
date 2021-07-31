@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 
-import { addUser } from '../../db/user';
+import { createUser } from '../../db/user';
 
 interface RegisterQuery {
     email?: string;
@@ -20,7 +20,7 @@ const RegisterHandler = async (req: NextApiRequest, res: NextApiResponse) => {
         return res.status(404).json({'error': 'Cannot find Email, Username or Password.'} as RegisterResponse);
 
     try {
-        const { worked, error } = await addUser(email, username, password);
+        const { worked, error } = await createUser(email, username, password);
 
         if (worked)
             return res.status(200).json({completed: true} as RegisterResponse);
