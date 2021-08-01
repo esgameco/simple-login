@@ -71,7 +71,6 @@ const BooksHandler = async (req: NextApiRequest, res: NextApiResponse) => {
                 return res.status(404).json({'error': 'The Book API has made an error.'} as GetResponse<Book>);
             } 
         }
-        
     } catch {
         res.status(404).json({'error': 'An unknown error has occurred.'} as GetResponse<Book>);
     }
