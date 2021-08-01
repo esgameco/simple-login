@@ -22,7 +22,7 @@ export const changeQueriesLeft = async (username: string, numQueries: number): P
     if (newQueries < 0)
         newQueries = 0;
     
-    const updateResult = await query('UPDATE users SET queriesleft = $1 WHERE username = $2', [newQueries, username]) as QueryResult;
+    const updateResult = await query('UPDATE users SET queriesleft = $1 WHERE username = $2', [String(newQueries), username]) as QueryResult;
     
     return {worked: true};
 }

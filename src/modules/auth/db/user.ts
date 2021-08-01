@@ -19,7 +19,7 @@ export const createUser = async (email: string, username: string, password: stri
         const passwordHash = await hash(password, config.get('saltRounds'));
 
         // Add user to the database
-        await query(`INSERT INTO users VALUES ($1, $2, $3, $4, $5)`, [email, username, passwordHash, accessLevel, queriesLeft]);
+        await query(`INSERT INTO users VALUES ($1, $2, $3, $4, $5)`, [email, username, passwordHash, String(accessLevel), String(queriesLeft)]);
 
         return {} as CreateResponse;
     } catch {

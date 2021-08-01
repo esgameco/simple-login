@@ -1,5 +1,6 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import { compare } from 'bcrypt';
+import cookie from 'cookie';
 
 import { getUser } from '../../db/user';
 import { createToken } from '../../utils/token';
@@ -36,8 +37,11 @@ const LoginHandler = async (req: NextApiRequest, res: NextApiResponse) => {
         // Signs jwt token to give to user
         const token = createToken({username});
 
+        if (!token)
+            return res.status(404).json({'error': 'Token could not be created.'} as LoginResponse);
+
         // Sets auth header to the jwt token
-        res.setHeader('Set-Cookie', `auth:${token}`);
+        res.setHeader('Set-Cookie', cookie.serialize('auth', token, {path: '/api'}));
         res.status(200).json({token});
     } catch {
         res.status(404).json({'error': 'An unknown error has occurred'})

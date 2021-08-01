@@ -9,7 +9,7 @@ import { CreateResponse, GetResponse } from '../../../db/types/response';
 
 export const createBook = async (isbn: string, title: string, description: string): Promise<CreateResponse> => {
     try {
-        await query('INSERT INTO books VALUES ($1, $2, $3)', [isbn, title, description]);
+        await query('INSERT INTO books VALUES ($1, $2, $3) ON CONFLICT ($1) DO NOTHING;', [isbn, title, description]);
 
         return {} as CreateResponse;
     } catch {

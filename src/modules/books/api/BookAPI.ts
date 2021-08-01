@@ -1,5 +1,6 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import axios, { AxiosResponse } from 'axios';
+import cookie from 'cookie';
 import config from 'config';
 
 import { getUser } from '../../auth/db/user';
@@ -15,10 +16,15 @@ interface BookSearchQuery {
 }
 
 const BooksHandler = async (req: NextApiRequest, res: NextApiResponse) => {
-    const { auth, bookISBN } = req.query as BookSearchQuery;
+    const { bookISBN } = req.query as BookSearchQuery;
+
+    if (!req.headers.cookie)
+        return res.status(404).json({'error': 'Auth cookie has not been passed.'} as GetResponse<Book>);
+
+    const { auth } = cookie.parse(req.headers.cookie);
 
     if (!auth)
-        return res.status(404).json({'error': 'Auth token is not provided.'} as GetResponse<Book>);
+        return res.status(404).json({'error': 'Auth token is not in the cookie.'} as GetResponse<Book>);
 
     if (!bookISBN)
         return res.status(404).json({'error': 'Book ISBN is not provided.'} as GetResponse<Book>);
