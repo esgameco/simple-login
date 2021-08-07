@@ -41,7 +41,7 @@ const LoginHandler = async (req: NextApiRequest, res: NextApiResponse) => {
             return res.status(404).json({'error': 'Token could not be created.'} as LoginResponse);
 
         // Sets auth header to the jwt token
-        res.setHeader('Set-Cookie', cookie.serialize('auth', token, {path: '/api'}));
+        res.setHeader('Set-Cookie', cookie.serialize('auth', token, {path: '/'}));
         res.status(200).json({token});
     } catch {
         res.status(404).json({'error': 'An unknown error has occurred'})
